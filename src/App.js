@@ -1,9 +1,9 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
-import { SWRConfig } from "swr";
+import Login from "./pages/Login/Login";
 
+import { SWRConfig } from "swr";
+import Register from "./pages/Register/Register";
 const App = () => {
   let navigate = useNavigate();
   return (
@@ -20,6 +20,7 @@ const App = () => {
       <Routes>
         <Route index element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </SWRConfig>
   );

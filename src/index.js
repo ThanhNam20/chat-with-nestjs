@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 
 ReactDOM.render(
   <BrowserRouter>
