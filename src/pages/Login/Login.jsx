@@ -1,7 +1,30 @@
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
 import { FaEnvelope, FaFacebookF, FaGoogle } from "react-icons/fa";
 import { RiLockPasswordLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { localStorageService } from "../../services/local-storage.service";
+import { publicApiService } from "../../services/public-api.service";
+import { signInValidation } from "./login.validation";
 const Login = () => {
+  const navigate = useNavigate();
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+
+  const LoginWithEmail = async (userInfo) => {
+    try {
+      const userLoginData = await publicApiService.loginEmail(userInfo);
+      localStorageService.setLocal('access-token', userLoginData.data.token);
+      navigate('/')
+    } catch (error) {
+      console.log(error);
+    }
+    
+    
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-200">
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
@@ -26,43 +49,73 @@ const Login = () => {
             <p className="text-gray-400 my-3">Or use email and password</p>
             {/* Login form */}
             <div className="flex flex-col items-center">
-              <div className="bg-gray-100 w-64 p-2 flex items-center">
-                <FaEnvelope className="text-gray-400 m-2" />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="bg-gray-100 outline-none text-sm flex-1"
-                />
-              </div>
+              <Formik
+                initialValues={initialValues}
+                validationSchema={signInValidation}
+                onSubmit={(values) => {
+                  LoginWithEmail(values);
+                }}
+              >
+                {({ errors, touched }) => (
+                  <Form>
+                    <div className="bg-gray-100 w-64 p-2 flex items-center">
+                      <FaEnvelope className="text-gray-400 m-2" />
+                      <Field
+                        type="email"
+                        placeholder="Email"
+                        id="email"
+                        name="email"
+                        className="bg-gray-100 outline-none text-sm flex-1"
+                      />
+                    </div>
+                    <p className="text-red-500 text-left w-5/6 text-xs">
+                      <ErrorMessage name="email" />
+                    </p>
 
-              <div className="bg-gray-100 w-64 p-2 flex items-center mt-3">
-                <RiLockPasswordLine className="text-gray-500 m-2" />
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className="bg-gray-100 outline-none text-sm flex-1"
-                />
-              </div>
+                    <div className="bg-gray-100 w-64 p-2 flex items-center mt-3">
+                      <RiLockPasswordLine className="text-gray-500 m-2" />
+                      <Field
+                        type="password"
+                        placeholder="Password"
+                        id="password"
+                        name="password"
+                        className="bg-gray-100 outline-none text-sm flex-1"
+                      />
+                    </div>
+                    <p className="text-red-500 text-left w-5/6 text-xs">
+                      <ErrorMessage name="password" />
+                    </p>
 
-              <div className="flex justify-between w-64 mt-3">
-                <label htmlFor="" className="flex items-center text-xs">
-                  <input type="checkbox" name="remember" className="mr-1" />
-                  Remember me
-                </label>
-                <a href="#" className="text-xs">
-                  Forgot password
-                </a>
-              </div>
+                    <div className="flex justify-between w-64 mt-3">
+                      <label htmlFor="" className="flex items-center text-xs">
+                        <input
+                          type="checkbox"
+                          name="remember"
+                          className="mr-1"
+                        />
+                        Remember me
+                      </label>
+                      <a href="#" className="text-xs">
+                        Forgot password
+                      </a>
+                    </div>
+                    <button
+                      type="submit"
+                      className=" mt-5 border-2 
+                        border-green-500 
+                        rounded-full 
+                        px-12 py-2 
+                        inline-block 
+                        font-semibold 
+                        hover:bg-white 
+                        hover:text-green-500"
+                    >
+                      Sign in
+                    </button>
+                  </Form>
+                )}
+              </Formik>
             </div>
-            <button
-              className=" mt-5 border-2 border-green-500 
-             rounded-full px-12 py-2 inline-block 
-             font-semibold 
-             hover:bg-white 
-             hover:text-green-500"
-            >
-              Sign in
-            </button>
           </div>
           {/* register */}
           <div className="w-2/5 bg-green-500 text-white rounded-tr-2xl rounded-br-2xl py-36 px-12">

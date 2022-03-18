@@ -1,15 +1,21 @@
+import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
+import "react-toastify/dist/ReactToastify.css";
+import { HistoryRouter } from "./components/history-router.component";
+import { myHistory } from "./services/history.sercive";
+import { ToastContainer } from "react-toastify";
 
 ReactDOM.render(
-  <BrowserRouter>
+  <HistoryRouter history={myHistory}>
     <App />
-  </BrowserRouter>,
+    <ToastContainer />
+  </HistoryRouter>,
   document.getElementById("root")
 );
 
