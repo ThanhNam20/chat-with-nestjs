@@ -1,15 +1,13 @@
-import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
+import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import "react-toastify/dist/ReactToastify.css";
-import { HistoryRouter } from "./components/history-router.component";
 import { myHistory } from "./services/history.sercive";
 import { ToastContainer } from "react-toastify";
+import { HistoryRouter } from "./services/history-router.service";
 
 ReactDOM.render(
   <HistoryRouter history={myHistory}>

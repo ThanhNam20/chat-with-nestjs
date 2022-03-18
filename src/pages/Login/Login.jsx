@@ -17,12 +17,10 @@ const Login = () => {
     try {
       const userLoginData = await publicApiService.loginEmail(userInfo);
       localStorageService.setLocal('access-token', userLoginData.data.token);
-      navigate('/')
+      navigate('/');
     } catch (error) {
       console.log(error);
     }
-    
-    
   };
 
   return (

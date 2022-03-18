@@ -3,11 +3,28 @@ import { ErrorMessage, Field, Form, Formik, useFormik } from "formik";
 import { FaEnvelope } from "react-icons/fa";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { signUpValidation } from "./register.validation";
+import { localStorageService } from "../../services/local-storage.service";
+import { useNavigate } from "react-router-dom";
+import { publicApiService } from "../../services/public-api.service";
+import { toast } from "react-toastify";
 const Register = () => {
-
+  const navigate = useNavigate();
   const initialValues = {
     email: "",
     password: "",
+    re_password: ""
+  };
+
+  const RegisterEmail = async (userInfo) => {
+    try {
+      const userRegisterData = await publicApiService.registerEmail(userInfo);
+      if(userRegisterData) {
+        localStorageService.setLocal('access-token', userRegisterData.data.token);
+        navigate('/');
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
@@ -28,7 +45,11 @@ const Register = () => {
                 initialValues={initialValues}
                 validationSchema={signUpValidation}
                 onSubmit={(values) => {
-                  alert(JSON.stringify(values, null, 2));
+                  const userRegister = {
+                    email: values.email,
+                    password: values.password
+                  }
+                  RegisterEmail(userRegister);
                 }}
               >
                 {({ errors, touched }) => (
