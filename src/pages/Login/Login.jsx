@@ -1,8 +1,15 @@
+import {
+  AuthProvider,
+  FacebookAuthProvider,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
 import { FaEnvelope, FaFacebookF, FaGoogle } from "react-icons/fa";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../services/firebase.service";
 import { localStorageService } from "../../services/local-storage.service";
 import { publicApiService } from "../../services/public-api.service";
 import { signInValidation } from "./login.validation";
@@ -16,11 +23,36 @@ const Login = () => {
   const LoginWithEmail = async (userInfo) => {
     try {
       const userLoginData = await publicApiService.loginEmail(userInfo);
-      localStorageService.setLocal('access-token', userLoginData.data.token);
-      navigate('/');
+      localStorageService.setLocal("access-token", userLoginData.data.token);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const loginWithGoogle = (provider) => {
+    signInWithPopup(auth, provider)
+      .then(async (res) => {
+        if (res.user) {
+          const userData = {
+            email: res.user.email,
+            uid: res.user.uid,
+            user_avatar: res.user.photoURL,
+          };
+          try {
+            const userLoginData = await publicApiService.loginGoogle(userData);
+            localStorageService.setLocal(
+              "access-token",
+              userLoginData.data.token
+            );
+            navigate("/");
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      })
+      .catch((err) => {})
+      .finally(() => {});
   };
 
   return (
@@ -37,11 +69,14 @@ const Login = () => {
             <div className="border-2 w-20 border-green-500 inline-block mt-5"></div>
             {/* Social login */}
             <div className="flex justify-center my-2">
-              <button className="border-2 border-gray-200 rounded-full p-3 mx-1 hover:bg-blue-500">
-                <FaFacebookF />
+              <button
+                onClick={() => loginWithGoogle(new GoogleAuthProvider())}
+                className="border-2 border-gray-200 rounded-full p-3 mx-1 hover:bg-blue-500"
+              >
+                <FaGoogle />
               </button>
               <button className="border-2 border-gray-200 rounded-full p-3 mx-1 hover:bg-red-500">
-                <FaGoogle />
+                <FaFacebookF />
               </button>
             </div>
             <p className="text-gray-400 my-3">Or use email and password</p>

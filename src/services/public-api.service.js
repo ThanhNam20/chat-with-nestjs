@@ -1,7 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { environment } from "../environment";
-import { myHistory } from "./history.sercive";
 
 const public_axios = axios.create({
   baseURL: environment.BASE_URL,

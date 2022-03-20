@@ -1,12 +1,11 @@
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
-import { ErrorMessage, Field, Form, Formik, useFormik } from "formik";
 import { FaEnvelope } from "react-icons/fa";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { signUpValidation } from "./register.validation";
-import { localStorageService } from "../../services/local-storage.service";
 import { useNavigate } from "react-router-dom";
+import { localStorageService } from "../../services/local-storage.service";
 import { publicApiService } from "../../services/public-api.service";
-import { toast } from "react-toastify";
+import { signUpValidation } from "./register.validation";
 const Register = () => {
   const navigate = useNavigate();
   const initialValues = {
@@ -16,6 +15,7 @@ const Register = () => {
   };
 
   const RegisterEmail = async (userInfo) => {
+    
     try {
       const userRegisterData = await publicApiService.registerEmail(userInfo);
       if(userRegisterData) {
