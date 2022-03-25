@@ -44,8 +44,16 @@ private_axios.interceptors.response.use(null, (error) => {
   }
 });
 
-const getHome = () => {
-  return private_axios.get("/home");
+const getAllUsers = () => {
+  return private_axios.get("/user/get-all-user");
 };
 
-export const privateApiService = { getHome };
+const getUserChatRoom = (user_id) => {
+  return private_axios.get(`/chatroom/get-chatroom?user_id=${user_id}`);
+};
+
+const getMessageInRoom = (room_id) => {
+  return private_axios.get(`/chatroom/get-message-by-room?room_id=${room_id}`)
+}
+
+export const privateApiService = { getAllUsers, getUserChatRoom, getMessageInRoom };
