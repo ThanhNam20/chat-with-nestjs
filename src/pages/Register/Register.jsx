@@ -5,6 +5,7 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { localStorageService } from "../../services/local-storage.service";
 import { publicApiService } from "../../services/public-api.service";
+import { LOCAL_STORAGE } from "../../share/constant";
 import { signUpValidation } from "./register.validation";
 const Register = () => {
   const navigate = useNavigate();
@@ -15,11 +16,14 @@ const Register = () => {
   };
 
   const RegisterEmail = async (userInfo) => {
-    
     try {
       const userRegisterData = await publicApiService.registerEmail(userInfo);
       if(userRegisterData) {
-        localStorageService.setLocal('access-token', userRegisterData.data.token);
+        localStorageService.setLocal(LOCAL_STORAGE.ACCESS_TOKEN, userRegisterData.data.token);
+        localStorageService.setLocal(
+          LOCAL_STORAGE.USER_INFO,
+          JSON.stringify(userRegisterData.data.user)
+        );
         navigate('/');
       }
     } catch (error) {

@@ -11,7 +11,6 @@ export function errorInterceptor() {
     
         if ([401, 403].includes(response.status) ) {
             // auto logout if 401 or 403 response returned from api
-            console.log("hahahaha");
         }
 
         const errorMessage = response.data?.message || response.statusText;

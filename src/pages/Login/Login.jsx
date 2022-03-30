@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../../services/firebase.service";
 import { localStorageService } from "../../services/local-storage.service";
 import { publicApiService } from "../../services/public-api.service";
+import { LOCAL_STORAGE } from "../../share/constant";
 import { signInValidation } from "./login.validation";
 const Login = () => {
   const navigate = useNavigate();
@@ -23,7 +24,14 @@ const Login = () => {
   const LoginWithEmail = async (userInfo) => {
     try {
       const userLoginData = await publicApiService.loginEmail(userInfo);
-      localStorageService.setLocal("access-token", userLoginData.data.token);
+      localStorageService.setLocal(
+        LOCAL_STORAGE.ACCESS_TOKEN,
+        userLoginData.data.token
+      );
+      localStorageService.setLocal(
+        LOCAL_STORAGE.USER_INFO,
+        JSON.stringify(userLoginData.data.user)
+      );
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -42,8 +50,12 @@ const Login = () => {
           try {
             const userLoginData = await publicApiService.loginGoogle(userData);
             localStorageService.setLocal(
-              "access-token",
+              LOCAL_STORAGE.ACCESS_TOKEN,
               userLoginData.data.token
+            );
+            localStorageService.setLocal(
+              LOCAL_STORAGE.USER_INFO,
+              JSON.stringify(userLoginData.data.user)
             );
             navigate("/");
           } catch (error) {

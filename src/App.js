@@ -4,6 +4,7 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 
 import { createBrowserHistory } from "history";
+import ChatRoomScreen from "./pages/ChatRoom";
 
 
 
@@ -14,6 +15,7 @@ const App = () => {
       <Route index element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/chatroom/:id" element={<ChatRoomScreen />} />
     </Routes>
   );
 };
