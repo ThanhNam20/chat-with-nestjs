@@ -8,11 +8,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { myHistory } from "./services/history.sercive";
 import { ToastContainer } from "react-toastify";
 import { HistoryRouter } from "./services/history-router.service";
-
+import { RecoilRoot } from "recoil";
 ReactDOM.render(
   <HistoryRouter history={myHistory}>
-    <App />
-    <ToastContainer />
+    <RecoilRoot>
+      <App />
+      <ToastContainer />
+    </RecoilRoot>
   </HistoryRouter>,
   document.getElementById("root")
 );

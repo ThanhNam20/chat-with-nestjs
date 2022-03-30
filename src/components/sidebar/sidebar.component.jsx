@@ -5,32 +5,38 @@ import {
   Search,
   Sidebar,
 } from "@chatscope/chat-ui-kit-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { localStorageService } from "../../services/local-storage.service";
+import { LOCAL_STORAGE } from "../../share/constant";
 
 const SidebarComponent = (props) => {
-  const { listRoom, listUser, userId } = props;
-  const [image, setImage] = useState("https://loremflickr.com/320/240");
+  const { listRoom, userId } = props;
   const navigate = useNavigate();
 
-  listRoom.forEach((item) => {
+  const listRoomUser = listRoom.map((item) => {
     const friend_data = item.list_user_in_room.find(
       (data) => data.user_id !== userId
     );
-    if (friend_data) {
-      item["friend_data"] = friend_data;
-    }
+    return {
+      ...item,
+      friend_data,
+    };
   });
 
-  const goToConversationDetail = (item) =>{
-    navigate(`/chatroom/${item.room_id}`)
-  }
+  const goToConversationDetail = (item) => {
+    localStorageService.setLocal(
+      LOCAL_STORAGE.LAST_CONVERSATION_ID,
+      item.room_id
+    );
+    navigate(`/chatroom/${item.room_id}`);
+  };
 
   return (
     <Sidebar position="left" scrollable={false}>
       <Search placeholder="Search..." />
       <ConversationList>
-        {listRoom.map((item, key) => (
+        {listRoomUser.map((item, key) => (
           <div onClick={() => goToConversationDetail(item)}>
             <Conversation
               key={key}
@@ -39,6 +45,7 @@ const SidebarComponent = (props) => {
               info="Last message"
             >
               <Avatar
+                key={key}
                 src={item.friend_data.user_avatar}
                 name={item.friend_data.email}
                 status="available"
