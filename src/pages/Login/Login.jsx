@@ -170,6 +170,7 @@ const Login = () => {
               Fill up personal information and start journey with us
             </p>
             <button
+            onClick={() => {navigate('/register')}}
               className="border-2 border-white 
              rounded-full px-12 py-2 inline-block 
              font-semibold 

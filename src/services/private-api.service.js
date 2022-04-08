@@ -39,7 +39,7 @@ private_axios.interceptors.response.use(null, (error) => {
   }
 
   if ([404].includes(response.status)) {
-    myHistory.replace("/register");
+    myHistory.replace("/login");
     toast.error("this is toast error");
   }
 });
@@ -56,4 +56,8 @@ const getMessageInRoom = (room_id) => {
   return private_axios.get(`/chatroom/get-message-by-room?room_id=${room_id}`)
 }
 
-export const privateApiService = { getAllUsers, getUserChatRoom, getMessageInRoom };
+const createConversation = (data) =>{
+  return private_axios.post(`/chatroom/create-chatroom`, data);
+}
+
+export const privateApiService = { getAllUsers, getUserChatRoom, getMessageInRoom, createConversation };

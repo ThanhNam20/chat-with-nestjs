@@ -11,6 +11,16 @@ module.exports = {
         lg: "repeat(auto-fill, minmax(160px, 1fr))",
         sm: "repeat(auto-fill, minmax(130px, 1fr))",
       },
+      spacing: {
+        '128': '32rem',
+        '144': '36rem',
+      },
+      borderRadius: {
+        '4xl': '2rem',
+      },
+      top: {},
+      left: {}
+      
     },
   },
   plugins: [],

@@ -1,7 +1,7 @@
 import { MainContainer } from "@chatscope/chat-ui-kit-react";
 import React from "react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetRecoilValueInfo_UNSTABLE, useRecoilValue } from "recoil";
 import ConversationInfoComponent from "../components/conversation-info/conversation-info.component";
 import MainChatRoomComponent from "../components/main-chatroom/main-chatroom.component";
@@ -18,9 +18,9 @@ const ChatRoomScreen = () => {
   const { id } = useParams();
   const { messages, sendMessage } = useSocketClient(id);
   const { height, width } = useWindowDimensions();
+  const navigate = useNavigate();
 
   const listRoomsState = useRecoilValue(RoomStateService.roomState);
-
   const listUsersState = useRecoilValue(UserStateService.UserState);
 
   const userInfo = JSON.parse(

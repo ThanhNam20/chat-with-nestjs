@@ -12,7 +12,6 @@ import { RoomStateService } from "../store/roomState";
 import { UserStateService } from "../store/userState";
 
 const Home = () => {
-
   const { height, width } = useWindowDimensions();
   const [listUser, setlistUser] = useState(null);
   const [listRoom, setlistRoom] = useState(null);
@@ -64,14 +63,9 @@ const Home = () => {
         position: "relative",
       }}
     >
-      {listRoom && listRoom.length > 0 && listUser && listUser.length > 0 ? (
+      {listRoom && listUser ? (
         <MainContainer responsive>
-          <SidebarComponent
-            userId={userInfo.user_id}
-            listRoom={listRoom}
-          />
-          {/* <MainChatRoomComponent /> */}
-          {/* <ConversationInfoComponent /> */}
+          <SidebarComponent userId={userInfo.user_id} listRoom={listRoom} />
         </MainContainer>
       ) : null}
     </div>

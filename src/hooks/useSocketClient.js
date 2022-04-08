@@ -32,7 +32,6 @@ const useSocketClient = (roomId) => {
         setMessages((messages) => [...messages, messageParse]);
       }
     );
-
     return () => {
       socketRef.current.disconnect();
     };
@@ -40,8 +39,10 @@ const useSocketClient = (roomId) => {
 
   const sendMessage = (messageBody) => {
     socketRef.current.emit(process.env.REACT_APP_PUT_NEW_MESSAGE_EVENT, {
-      body: messageBody,
+      body: messageBody.messageInputValue,
       senderId: socketRef.current.id,
+      user_id: messageBody.user_id,
+      message_type: messageBody.message_type
     });
   };
 

@@ -5,6 +5,11 @@ const roomState = atom({
   default: [],
 })
 
+const selectedRoomState = atom({
+  key: 'selectedRoomState',
+  default: ''
+})
 
 
-export const RoomStateService = {roomState}
+
+export const RoomStateService = {roomState, selectedRoomState}
