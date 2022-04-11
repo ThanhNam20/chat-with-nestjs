@@ -41,6 +41,7 @@ const ChatRoomScreen = () => {
           listUser={listUsersState}
         />
         <MainChatRoomComponent
+          room_id={id}
           sendMessage={sendMessage}
           listMessages={messages}
         />

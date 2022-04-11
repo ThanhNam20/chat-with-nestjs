@@ -85,42 +85,77 @@ const SidebarComponent = (props) => {
         {listRoomUser.length !== 0 ? (
           listRoomUser.map((item, key) =>
             selectedRoomState === item.room_id ? (
-              <div className="bg-sky-200" onClick={() => goToConversationDetail(item)}>
-                <Conversation
-                  key={key}
-                  name={item.friend_data.email}
-                  lastSenderName="Lilly"
-                  info="Last message"
-                >
-                  <Avatar
+              <div
+                className="bg-sky-200"
+                onClick={() => goToConversationDetail(item)}
+              >
+                {item.last_message ? (
+                  <Conversation
                     key={key}
-                    src={item.friend_data.user_avatar}
                     name={item.friend_data.email}
-                    status="available"
-                  />
-                </Conversation>
+                    // lastSenderName="Lilly"
+                    info={item.last_message.content}
+                  >
+                    <Avatar
+                      key={key}
+                      src={item.friend_data.user_avatar}
+                      name={item.friend_data.email}
+                      status="available"
+                    />
+                  </Conversation>
+                ) : (
+                  <Conversation
+                    key={key}
+                    name={item.friend_data.email}
+                    // lastSenderName="Lilly"
+                    info="No content"
+                  >
+                    <Avatar
+                      key={key}
+                      src={item.friend_data.user_avatar}
+                      name={item.friend_data.email}
+                      status="available"
+                    />
+                  </Conversation>
+                )}
               </div>
             ) : (
               <div onClick={() => goToConversationDetail(item)}>
-                <Conversation
-                  key={key}
-                  name={item.friend_data.email}
-                  lastSenderName="Lilly"
-                  info="Last message"
-                >
-                  <Avatar
+                {item.last_message ? (
+                  <Conversation
                     key={key}
-                    src={item.friend_data.user_avatar}
                     name={item.friend_data.email}
-                    status="available"
-                  />
-                </Conversation>
+                    // lastSenderName="Lilly"
+                    info={item.last_message.content}
+                  >
+                    <Avatar
+                      key={key}
+                      src={item.friend_data.user_avatar}
+                      name={item.friend_data.email}
+                      status="available"
+                    />
+                  </Conversation>
+                ) : (
+                  <Conversation
+                    key={key}
+                    name={item.friend_data.email}
+                    // lastSenderName="Lilly"
+                    info="No content"
+                  >
+                    <Avatar
+                      key={key}
+                      src={item.friend_data.user_avatar}
+                      name={item.friend_data.email}
+                      status="available"
+                    />
+                  </Conversation>
+                )}
               </div>
             )
           )
         ) : (
           <div>
-            <p className="text-center">Not found data</p>
+            <p className="text-center">Have no conversations</p>
           </div>
         )}
       </ConversationList>

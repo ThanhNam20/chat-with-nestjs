@@ -60,4 +60,8 @@ const createConversation = (data) =>{
   return private_axios.post(`/chatroom/create-chatroom`, data);
 }
 
+const getLastMessageWithRoom = (last_message_id) =>{
+  return private_axios.get(`/chatroom/get-last-message-by-room?last_message_id=${last_message_id}`);
+}
+
 export const privateApiService = { getAllUsers, getUserChatRoom, getMessageInRoom, createConversation };

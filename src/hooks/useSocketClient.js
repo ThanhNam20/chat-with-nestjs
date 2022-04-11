@@ -25,6 +25,7 @@ const useSocketClient = (roomId) => {
       process.env.REACT_APP_NEW_CHAT_MESSAGE_EVENT,
       (message) => {
         const messageParse = JSON.parse(message);
+        console.log(messageParse);
         // const incomingMessage = {
         //   ...message,
         //   ownedByCurrentUser: message.senderId === socketRef.current.id,
@@ -38,12 +39,24 @@ const useSocketClient = (roomId) => {
   }, [roomId]);
 
   const sendMessage = (messageBody) => {
-    socketRef.current.emit(process.env.REACT_APP_PUT_NEW_MESSAGE_EVENT, {
-      body: messageBody.messageInputValue,
-      senderId: socketRef.current.id,
-      user_id: messageBody.user_id,
-      message_type: messageBody.message_type
-    });
+    console.log(messageBody);
+    if (messageBody.imageFile) {
+      socketRef.current.emit(process.env.REACT_APP_PUT_NEW_MESSAGE_EVENT, {
+        body: messageBody.messageInputValue,
+        senderId: socketRef.current.id,
+        user_id: messageBody.user_id,
+        message_type: messageBody.message_type,
+        imageFile: messageBody.imageFile,
+        imageFileName: messageBody.imageFileName
+      });
+    } else {
+      socketRef.current.emit(process.env.REACT_APP_PUT_NEW_MESSAGE_EVENT, {
+        body: messageBody.messageInputValue,
+        senderId: socketRef.current.id,
+        user_id: messageBody.user_id,
+        message_type: messageBody.message_type,
+      });
+    }
   };
 
   return { messages, sendMessage };
