@@ -11,7 +11,7 @@ import {
   VoiceCallButton,
 } from "@chatscope/chat-ui-kit-react";
 import Picker from "emoji-picker-react";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { SiIconify } from "react-icons/si";
 import { localStorageService } from "../../services/local-storage.service";
 import { LOCAL_STORAGE, MESSAGE_TYPE } from "../../share/constant";
@@ -31,7 +31,6 @@ const MainChatRoomComponent = (props) => {
   const userInfo = JSON.parse(
     localStorageService.getLocal(LOCAL_STORAGE.USER_INFO)
   );
-
   const onEmojiClick = (event, emojiObject) => {
     setMessageInputValue(
       (oldMessageValue) => `${oldMessageValue} ${emojiObject.emoji}`
@@ -176,8 +175,12 @@ const MainChatRoomComponent = (props) => {
             onClick={onOpenEmojiModal}
           />
           <div>
-            <FiImage className="relative z-50 left-1 top-4 text-cyan-400 ml-2" />
+            <label htmlFor="upload">
+              <FiImage className="relative z-50 left-1 top-4 text-cyan-400 ml-2" />
+            </label>
             <input
+              hidden
+              id="upload"
               onChange={(event) => selectImage(event.target.files[0])}
               type="file"
             />
@@ -185,7 +188,7 @@ const MainChatRoomComponent = (props) => {
 
           {selectedImageB64 ? (
             <img
-              className="w-20 h-20 relative bottom-24 right-72"
+              className="w-20 h-20 relative bottom-24 right-1*4 "
               src={selectedImageB64}
               alt=""
             />
